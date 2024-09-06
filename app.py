@@ -23,7 +23,7 @@ top = """
 st.markdown(top, unsafe_allow_html=True)
 
 MARGINS = {
-    "top": "2.875rem",
+    "top": "1rem",
     "bottom": "0rem",
 }
 
