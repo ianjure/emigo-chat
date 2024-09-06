@@ -12,61 +12,40 @@ def stream_data(content):
         time.sleep(0.08)
 
 top = """
-        <style>
-        .block-container {
-                padding-top: 0rem;
-                padding-bottom: 0rem;
-                margin-top: 0rem;
-        }
-        </style>
+    <style>
+    .block-container {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+        margin-top: 0rem;
+    }
+    </style>
         """
 st.markdown(top, unsafe_allow_html=True)
 
+# Sticky Header
 header = st.container()
 header.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
 header.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
 header.write("""<div class='fixed-header'/>""", unsafe_allow_html=True)
 
-### Custom CSS for the sticky header
-st.markdown(
-    """
-<style>
-    div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
-        position: sticky;
-        margin-top: 1rem;
-        top: 2rem;
-        background-color: white;
-        z-index: 999;
-    }
-    .fixed-header {
-        border-bottom: 0px solid black;
-    }
-</style>
-    """,
-    unsafe_allow_html=True
-)
-
-"""
-def sticky_container(height=150):
-    STICKY_CONTAINER_HTML = ""
+# Custom CSS for the sticky header
+sticky_header = """
     <style>
-    div[data-testid="stVerticalBlock"]
-        position: sticky;
-        top: 2rem;
-        background-color: white;
-        z-index: 999;
+        div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
+            position: sticky;
+            margin-top: 1rem;
+            margin-bottom: -1rem;
+            top: 2rem;
+            background-color: white;
+            z-index: 999;
+        }
+        .fixed-header {
+            border-bottom: 0px solid black;
+        }
     </style>
-    ""
-    container = st.container(height=height, border=False)
-    container.markdown(STICKY_CONTAINER_HTML, unsafe_allow_html=True)
-    return container
+    """
+st.markdown(sticky_header, unsafe_allow_html=True)
 
-with sticky_container():
-    # TITLE
-    st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
-    # SUBTITLE
-    st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
-"""
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
 if "messages" not in st.session_state:
