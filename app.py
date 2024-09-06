@@ -46,7 +46,7 @@ st.markdown(
 
 """
 def sticky_container(height=150):
-    STICKY_CONTAINER_HTML = """
+    STICKY_CONTAINER_HTML = ""
     <style>
     div[data-testid="stVerticalBlock"]
         position: sticky;
@@ -54,7 +54,7 @@ def sticky_container(height=150):
         background-color: white;
         z-index: 999;
     </style>
-    """
+    ""
     container = st.container(height=height, border=False)
     container.markdown(STICKY_CONTAINER_HTML, unsafe_allow_html=True)
     return container
