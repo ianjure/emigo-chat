@@ -16,21 +16,22 @@ for message in st.session_state.messages:
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-prompt = st.chat_input("Say something.")
-if prompt:
+with st.container(border=True):
+    prompt = st.chat_input("Say something.")
+    if prompt:
 
-    # Store and display the current prompt.
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    
-    # Generate a response using the Gemini LLM.
-    llm = ChatGoogleGenerativeAI(model="gemini-pro",)
-    stream = llm.invoke(prompt)
-    content = stream.content
+        # Store and display the current prompt.
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        
+        # Generate a response using the Gemini LLM.
+        llm = ChatGoogleGenerativeAI(model="gemini-pro",)
+        stream = llm.invoke(prompt)
+        content = stream.content
 
-    # Stream the response to the chat using `st.write_stream`, then store it in 
-    # session state.
-    st.session_state.messages.append({"role": "assistant", "content": content})
-    with st.chat_message("assistant"):
-        response = st.write(content)
+        # Stream the response to the chat using `st.write_stream`, then store it in 
+        # session state.
+        st.session_state.messages.append({"role": "assistant", "content": content})
+        with st.chat_message("assistant"):
+            response = st.write(content)
