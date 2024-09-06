@@ -36,7 +36,7 @@ sticky_header = """
             position: sticky;
             margin-top: 1rem;
             margin-bottom: -0.6rem;
-            top: 2rem;
+            top: 2.5rem;
             background-color: white;
             z-index: 999;
         }
