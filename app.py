@@ -22,6 +22,29 @@ top = """
         """
 st.markdown(top, unsafe_allow_html=True)
 
+header = st.container()
+header.title("Here is a sticky header")
+header.write("""<div class='fixed-header'/>""", unsafe_allow_html=True)
+
+### Custom CSS for the sticky header
+st.markdown(
+    """
+<style>
+    div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
+        position: sticky;
+        top: 2.875rem;
+        background-color: white;
+        z-index: 999;
+    }
+    .fixed-header {
+        border-bottom: 1px solid black;
+    }
+</style>
+    """,
+    unsafe_allow_html=True
+)
+
+"""
 def sticky_container(height=150):
     STICKY_CONTAINER_HTML = """
     <style>
@@ -41,7 +64,7 @@ with sticky_container():
     st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
     # SUBTITLE
     st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
-
+"""
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
 if "messages" not in st.session_state:
