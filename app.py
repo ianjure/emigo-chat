@@ -34,9 +34,6 @@ div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
 """.strip()
 
 def sticky_container(height=150):
-    if margin is None:
-        margin = MARGINS[mode]
-
     html_code = STICKY_CONTAINER_HTML.format()
 
     container = st.container(height=height, border=False)
