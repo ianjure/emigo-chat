@@ -29,7 +29,8 @@ if prompt:
     stream = llm.invoke(prompt)
     content = stream.content
 
-    # Assistant reply
+    # Stream the response to the chat using `st.write_stream`, then store it in 
+    # session state.
     with st.chat_message("assistant"):
         response = st.write(content)
     st.session_state.messages.append({"role": "assistant", "content": response})
