@@ -21,18 +21,16 @@ prompt = st.chat_input("Say something.")
 if prompt:
     # Store and display the current prompt.
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with container:
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    with st.chat_message("user"):
+        st.markdown(prompt)
     
     # Generate a response using the Gemini LLM.
-    llm = ChatGoogleGenerativeAI(model="gemini-pro",)
-    stream = llm.invoke(prompt)
-    content = stream.content
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
+    #stream = llm.invoke(prompt)
+    #content = stream.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
     # session state.
     st.session_state.messages.append({"role": "assistant", "content": content})
-    with container:
-        with st.chat_message("assistant"):
-            response = st.write(content)
+    with st.chat_message("assistant"):
+        response = st.write_stream(llm)
