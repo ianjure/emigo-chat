@@ -35,7 +35,7 @@ sticky_header = """
         div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
             position: sticky;
             margin-top: 1rem;
-            margin-bottom: -0.8rem;
+            margin-bottom: -0.6rem;
             top: 2rem;
             background-color: white;
             z-index: 999;
