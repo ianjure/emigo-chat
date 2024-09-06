@@ -31,11 +31,9 @@ div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
     z-index: 999;
 </style>
 <div class='fixed-header'/>
-""".strip()
+"""
 
 def sticky_container(height=150):
-    html_code = STICKY_CONTAINER_HTML.format()
-
     container = st.container(height=height, border=False)
     container.markdown(html_code, unsafe_allow_html=True)
     return container
