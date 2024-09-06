@@ -11,11 +11,35 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
+header = st.container()
+header.title("Here is a sticky header")
+header.write("""<div class='fixed-header'/>""", unsafe_allow_html=True)
+
+### Custom CSS for the sticky header
+st.markdown(
+    """
+<style>
+    div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
+        position: sticky;
+        top: 2.875rem;
+        background-color: white;
+        z-index: 999;
+    }
+    .fixed-header {
+        border-bottom: 1px solid black;
+    }
+</style>
+    """,
+    unsafe_allow_html=True
+)
+
+"""
 # TITLE
 st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
 
 # SUBTITLE
 st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
+"""
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
@@ -27,6 +51,11 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+
+with st.container():
+    # Create a placeholder container that holds all the messages:
+    messages = st.container(height=300)
+    if prompt := st.chat_input("Say something"):
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
 prompt = st.chat_input("Say something.")
