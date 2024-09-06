@@ -32,8 +32,7 @@ div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
 # Not to apply the same style to multiple containers
 count = 0
 
-
-def sticky_container(height=None, border, mode="top", margin=None):
+def sticky_container(height=None, border=False, mode="top", margin=None):
     if margin is None:
         margin = MARGINS[mode]
 
