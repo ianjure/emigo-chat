@@ -23,7 +23,7 @@ top = """
 st.markdown(top, unsafe_allow_html=True)
 
 header = st.container()
-header.title("Here is a sticky header")
+header.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
 header.write("""<div class='fixed-header'/>""", unsafe_allow_html=True)
 
 ### Custom CSS for the sticky header
