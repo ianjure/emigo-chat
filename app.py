@@ -27,8 +27,9 @@ if prompt:
     # Generate a response using the Gemini LLM.
     llm = ChatGoogleGenerativeAI(model="gemini-pro",)
     stream = llm.invoke(prompt)
+    content = stream.content
 
     # Assistant reply
     with st.chat_message("assistant"):
-        response = st.write(stream.content)
+        response = st.write(content)
     st.session_state.messages.append({"role": "assistant", "content": response})
