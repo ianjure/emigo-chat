@@ -27,7 +27,7 @@ def sticky_container(height=150):
     <style>
     div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
         position: sticky;
-        top: 1.8rem;
+        top: 2rem;
         background-color: white;
         z-index: 999;
     </style>
