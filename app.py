@@ -11,6 +11,12 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
+# TITLE
+st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
+
+# SUBTITLE
+st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
+
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
 if "messages" not in st.session_state:
@@ -25,6 +31,7 @@ for message in st.session_state.messages:
 # automatically at the bottom of the page.
 prompt = st.chat_input("Say something.")
 if prompt:
+
     # Store and display the current prompt.
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
