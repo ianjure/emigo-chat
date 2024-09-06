@@ -22,20 +22,19 @@ top = """
         """
 st.markdown(top, unsafe_allow_html=True)
 
-STICKY_CONTAINER_HTML = """
-<style>
-div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
-    position: sticky;
-    top: 1.8rem;
-    background-color: white;
-    z-index: 999;
-</style>
-<div class='fixed-header'/>
-"""
-
 def sticky_container(height=150):
+    STICKY_CONTAINER_HTML = """
+    <style>
+    div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
+        position: sticky;
+        top: 1.8rem;
+        background-color: white;
+        z-index: 999;
+    </style>
+    <div class='fixed-header'/>
+    """
     container = st.container(height=height, border=False)
-    container.markdown(html_code, unsafe_allow_html=True)
+    container.markdown(STICKY_CONTAINER_HTML, unsafe_allow_html=True)
     return container
 
 with sticky_container():
