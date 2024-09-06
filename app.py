@@ -11,6 +11,17 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
+top = """
+        <style>
+        .block-container {
+                padding-top: 0rem;
+                padding-bottom: 4rem;
+                margin-top: 0rem;
+        }
+        </style>
+        """
+st.markdown(top, unsafe_allow_html=True)
+
 MARGINS = {
     "top": "2.875rem",
     "bottom": "0rem",
@@ -32,7 +43,7 @@ div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
 count = 0
 
 
-def sticky_container(height=200, mode="top", margin=None):
+def sticky_container(height=140, mode="top", margin=None):
     if margin is None:
         margin = MARGINS[mode]
 
