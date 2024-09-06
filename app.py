@@ -11,35 +11,46 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
-header = st.container()
-header.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
-header.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
 
-### Custom CSS for the sticky header
-st.markdown(
-    """
+MARGINS = {
+    "top": "2.875rem",
+    "bottom": "0",
+}
+
+STICKY_CONTAINER_HTML = """
 <style>
-    div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
-        position: sticky;
-        top: 2.875rem;
-        background-color: white;
-        z-index: 999;
-    }
-    .fixed-header {
-        border-bottom: 1px solid black;
-    }
+div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
+    position: sticky;
+    {position}: {margin};
+    background-color: white;
+    z-index: 999;
+}}
 </style>
-    """,
-    unsafe_allow_html=True
-)
+<div class='fixed-header-{i}'/>
+""".strip()
 
-"""
-# TITLE
-st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
+# Not to apply the same style to multiple containers
+count = 0
 
-# SUBTITLE
-st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
-"""
+
+def sticky_container(height, border, mode="top", margin):
+    if margin is None:
+        margin = MARGINS[mode]
+
+    global count
+    html_code = STICKY_CONTAINER_HTML.format(position=mode, margin=margin, i=count)
+    count += 1
+
+    container = st.container(height=height, border=border)
+    container.markdown(html_code, unsafe_allow_html=True)
+    return container
+
+with sticky_container(mode="top", border=True):
+    # TITLE
+    st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
+
+    # SUBTITLE
+    st.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
