@@ -5,6 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
 
+# Stream bot response
 def stream_data(content):
     for word in content.split(" "):
         yield word + " "
@@ -22,7 +23,6 @@ for message in st.session_state.messages:
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-container = st.container(border=True, height=500)
 prompt = st.chat_input("Say something.")
 if prompt:
     # Store and display the current prompt.
@@ -32,8 +32,8 @@ if prompt:
     
     # Generate a response using the Gemini LLM.
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
-    stream = llm.invoke(prompt)
-    content = stream.content
+    result = llm.invoke(prompt)
+    content = result.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
     # session state.
