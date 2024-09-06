@@ -15,7 +15,7 @@ top = """
         <style>
         .block-container {
                 padding-top: 0rem;
-                padding-bottom: 4rem;
+                padding-bottom: 0rem;
                 margin-top: 0rem;
         }
         </style>
@@ -29,21 +29,21 @@ MARGINS = {
 
 STICKY_CONTAINER_HTML = """
 <style>
-div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
+div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {{
     position: sticky;
     {position}: {margin};
     background-color: white;
     z-index: 999;
 }}
 </style>
-<div class='fixed-header-{i}'/>
+<div class='fixed-header'/>
 """.strip()
 
 def sticky_container(height=150, mode="top", margin=None):
     if margin is None:
         margin = MARGINS[mode]
 
-    html_code = STICKY_CONTAINER_HTML.format(position=mode, margin=margin, i=count)
+    html_code = STICKY_CONTAINER_HTML.format(position=mode, margin=margin)
 
     container = st.container(height=height, border=False)
     container.markdown(html_code, unsafe_allow_html=True)
