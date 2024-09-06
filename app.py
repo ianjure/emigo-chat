@@ -51,11 +51,6 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-
-with st.container():
-    # Create a placeholder container that holds all the messages:
-    messages = st.container(height=300)
-    if prompt := st.chat_input("Say something"):
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
 prompt = st.chat_input("Say something.")
