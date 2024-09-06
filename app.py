@@ -25,23 +25,14 @@ if prompt:
         st.markdown(prompt)
     
     # Generate a response using the Gemini LLM.
-    stream = ChatGoogleGenerativeAI(
-            model="gemini-pro",
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-        )
-    """
     llm = ChatGoogleGenerativeAI(model="gemini-pro",)
     messages= [
         {"role": m["role"], "content": m["content"]}
         for m in st.session_state.messages
     ]
     stream = llm.invoke(messages)
-    """
 
+    # Assistant reply
     with st.chat_message("assistant"):
-        response = st.write_stream(stream)
+        response = st.write(stream.content)
     st.session_state.messages.append({"role": "assistant", "content": response})
