@@ -25,13 +25,12 @@ st.markdown(top, unsafe_allow_html=True)
 def sticky_container(height=150):
     STICKY_CONTAINER_HTML = """
     <style>
-    div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
+    div[data-testid="stVerticalBlock"]
         position: sticky;
         top: 2rem;
         background-color: white;
         z-index: 999;
     </style>
-    <div class='fixed-header'/>
     """
     container = st.container(height=height, border=False)
     container.markdown(STICKY_CONTAINER_HTML, unsafe_allow_html=True)
