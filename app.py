@@ -32,7 +32,6 @@ STICKY_CONTAINER_HTML = """
 div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
     position: sticky;
     {position}: {margin};
-    margin-bottom: 1rem;
     background-color: white;
     z-index: 999;
 }}
@@ -44,7 +43,7 @@ div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
 count = 0
 
 
-def sticky_container(height=140, mode="top", margin=None):
+def sticky_container(height=140, mode="bottom", margin=None):
     if margin is None:
         margin = MARGINS[mode]
 
