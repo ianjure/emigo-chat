@@ -22,28 +22,22 @@ top = """
         """
 st.markdown(top, unsafe_allow_html=True)
 
-MARGINS = {
-    "top": "1rem",
-    "bottom": "0rem",
-}
-
 STICKY_CONTAINER_HTML = """
 <style>
-div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {{
+div[data-testid="stVerticalBlock"] div:has(div.fixed-header)
     position: sticky;
-    {position}: {margin};
+    top: 1.8rem;
     background-color: white;
     z-index: 999;
-}}
 </style>
 <div class='fixed-header'/>
 """.strip()
 
-def sticky_container(height=150, mode="top", margin=None):
+def sticky_container(height=150):
     if margin is None:
         margin = MARGINS[mode]
 
-    html_code = STICKY_CONTAINER_HTML.format(position=mode, margin=margin)
+    html_code = STICKY_CONTAINER_HTML.format()
 
     container = st.container(height=height, border=False)
     container.markdown(html_code, unsafe_allow_html=True)
