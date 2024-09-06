@@ -32,12 +32,12 @@ st.markdown(
 <style>
     div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
         position: sticky;
-        top: 2.875rem;
+        top: 3rem;
         background-color: white;
         z-index: 999;
     }
     .fixed-header {
-        border-bottom: 1px solid black;
+        border-bottom: 0px solid black;
     }
 </style>
     """,
