@@ -11,39 +11,25 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
-
-MARGINS = {
-    "top": "2.875rem",
-    "bottom": "0",
-}
-
-STICKY_CONTAINER_HTML = """
+### Custom CSS for the sticky header
+st.markdown(
+    """
 <style>
-div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
-    position: sticky;
-    {position}: {margin};
-    z-index: 999;
-}}
+    div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
+        position: sticky;
+        top: 2.875rem;
+        background-color: white;
+        z-index: 999;
+    }
+    .fixed-header {
+        border-bottom: 1px solid black;
+    }
 </style>
-<div class='fixed-header-{i}'/>
-""".strip()
+    """,
+    unsafe_allow_html=True
+)
 
-# Not to apply the same style to multiple containers
-count = 0
-
-def sticky_container(height=None, border=False, mode="top", margin=None):
-    if margin is None:
-        margin = MARGINS[mode]
-
-    global count
-    html_code = STICKY_CONTAINER_HTML.format(position=mode, margin=margin, i=count)
-    count += 1
-
-    container = st.container(height=height, border=border)
-    container.markdown(html_code, unsafe_allow_html=True)
-    return container
-
-with sticky_container(mode="top", border=True):
+with st.container():
     # TITLE
     st.markdown("<p style='text-align: center; font-size: 3.4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
 
