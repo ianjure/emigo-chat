@@ -22,7 +22,6 @@ STICKY_CONTAINER_HTML = """
 div[data-testid="stVerticalBlock"] div:has(div.fixed-header-{i}) {{
     position: sticky;
     {position}: {margin};
-    background-color: white;
     z-index: 999;
 }}
 </style>
