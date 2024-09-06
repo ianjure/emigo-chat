@@ -1,8 +1,14 @@
 import streamlit as st
+import time
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
+
+def stream_data(content):
+    for word in content.split(" "):
+        yield word + " "
+        time.sleep(0.5)
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
@@ -26,11 +32,11 @@ if prompt:
     
     # Generate a response using the Gemini LLM.
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
-    #stream = llm.invoke(prompt)
-    #content = stream.content
+    stream = llm.invoke(prompt)
+    content = stream.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
     # session state.
     st.session_state.messages.append({"role": "assistant", "content": content})
     with st.chat_message("assistant"):
-        response = st.write_stream(llm)
+        response = st.write(stream_data(content))
