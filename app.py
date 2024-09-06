@@ -16,7 +16,7 @@ for message in st.session_state.messages:
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-container = st.container(border=True)
+container = st.container(border=True, height=500)
 prompt = st.chat_input("Say something.")
 if prompt:
     # Store and display the current prompt.
