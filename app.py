@@ -40,7 +40,7 @@ sticky_header = """
             z-index: 999;
         }
         .fixed-header {
-            border-bottom: 0px solid black;
+            border-bottom: 1px solid black;
         }
     </style>
     """
