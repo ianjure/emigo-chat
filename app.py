@@ -8,7 +8,7 @@ os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
 def stream_data(content):
     for word in content.split(" "):
         yield word + " "
-        time.sleep(0.5)
+        time.sleep(0.08)
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
