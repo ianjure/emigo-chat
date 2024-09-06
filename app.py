@@ -11,6 +11,7 @@ def stream_data(content):
         yield word + " "
         time.sleep(0.08)
 
+# remove top padding
 top = """
     <style>
     .block-container {
@@ -55,6 +56,9 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
+with st.chat_message("assistant"):
+    st.write("Greeting! Ask me anything.")
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
