@@ -3,6 +3,7 @@ import time
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
+from langchain import PromptTemplate
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
 
@@ -48,6 +49,13 @@ sticky_header = """
     """
 st.markdown(sticky_header, unsafe_allow_html=True)
 
+# Prompt Template
+template = """
+You are a teacher who has general knowledge about anything.
+Explain the concept of {concept} like I'm five, and make it simple and concise.
+"""
+prompt = PromptTemplate(input_variables=["concept"], template=template)
+
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
 if "messages" not in st.session_state:
@@ -63,17 +71,17 @@ with st.chat_message("assistant"):
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-prompt = st.chat_input("Say something.")
-if prompt:
+user_input = st.chat_input("Say something.")
+if user_input:
 
     # Store and display the current prompt.
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(user_input)
     
     # Generate a response using the Gemini LLM.
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
-    result = llm.invoke(prompt)
+    result = llm(prompt.format(concept="user_input"))
     content = result.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
