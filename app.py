@@ -51,9 +51,13 @@ st.markdown(sticky_header, unsafe_allow_html=True)
 # Prompt Template
 template = """
 You are a teacher who has general knowledge about anything.
-Explain the concept of {concept} like I'm five, and make it simple and concise.
+Explain the concept of {concept} like I'm a teen, and make it simple and concise.
 """
 prompt = PromptTemplate.from_template(template)
+
+# Greetings
+with st.chat_message("assistant"):
+    st.write("Greeting! Ask me anything.")
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
@@ -64,9 +68,6 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-
-with st.chat_message("assistant"):
-    st.write("Greeting! Ask me anything.")
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
