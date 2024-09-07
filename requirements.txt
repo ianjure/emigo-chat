@@ -1,8 +1,3 @@
 streamlit
 langchain-google-genai
-google-generativeai
 langchain
-langchain-community
-pypdf2
-chromadb
-faiss-cpu
