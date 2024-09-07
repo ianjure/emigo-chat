@@ -75,7 +75,8 @@ if user_input:
     # Generate a response using the Gemini LLM.
     template = """
     You are my study buddy who has general knowledge about anything.
-    Disregard any greetings and just say "Do you have any questions, buddy?"
+    Disregard any messages aside from a question or a concept, and
+    just say "Do you have any questions, buddy?"
     Explain the concept of {concept} in a simple and concise way, not more than 5 sentences.
     """
     prompt = PromptTemplate.from_template(template)
