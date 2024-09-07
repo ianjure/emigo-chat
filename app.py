@@ -74,11 +74,13 @@ if user_input:
     
     # Generate a response using the Gemini LLM.
     template = """
-    You are a teacher who has general knowledge about anything.
-    Explain the concept of {concept} like I'm a teen, and make it simple and concise.
+    You are my study buddy who has general knowledge about anything.
+    Explain the concept of {concept} in a simple and concise way, not more than 5 sentences.
+    Make sure to disregard any greetings or messages that is not a concept or a question,
+    and just say "Do you have any questions, buddy?"
     """
     prompt = PromptTemplate.from_template(template)
-    
+
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
     chain = prompt | llm
     result = chain.invoke({"concept": user_input})
