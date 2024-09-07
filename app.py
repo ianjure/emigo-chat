@@ -48,13 +48,6 @@ sticky_header = """
     """
 st.markdown(sticky_header, unsafe_allow_html=True)
 
-# Prompt Template
-template = """
-You are a teacher who has general knowledge about anything.
-Explain the concept of {concept} like I'm a teen, and make it simple and concise.
-"""
-prompt = PromptTemplate.from_template(template)
-
 # Greetings
 with st.chat_message("assistant"):
     st.write("What's up? Ask me anything, buddy.")
@@ -80,6 +73,12 @@ if user_input:
         st.markdown(user_input)
     
     # Generate a response using the Gemini LLM.
+    template = """
+    You are a teacher who has general knowledge about anything.
+    Explain the concept of {concept} like I'm a teen, and make it simple and concise.
+    """
+    prompt = PromptTemplate.from_template(template)
+    
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
     chain = prompt | llm
     result = chain.invoke({"concept": user_input})
