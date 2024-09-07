@@ -75,9 +75,22 @@ if user_input:
     # Generate a response using the Gemini LLM.
     template = """
     You are my study buddy who has general knowledge about anything.
-    Disregard any messages aside from a question or a concept, and
-    just say "Do you have any questions, buddy?"
-    Explain the concept of {concept} in a simple and concise way, not more than 5 sentences.
+    Check if the message is valid or not.
+
+    Valid Messages:
+    - Questions about certain stuffs, most likely subjects from school.
+    - A request of explaining a concept.
+
+    Invalid Messages:
+    - A greeting
+    - A rhetorical question
+    - messages that will not help me in my studies.
+
+    If the message is valid, explain the concept of {concept} in a simple and concise way,
+    not more than 3 sentences.
+
+    If it is not valid, just say "Do you have any questions, buddy?" or any other way as long
+    as it is has the same context.
     """
     prompt = PromptTemplate.from_template(template)
 
