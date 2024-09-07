@@ -2,6 +2,6 @@ streamlit
 langchain-google-genai
 google-generativeai
 langchain
-PyPDF2
+pypdf2
 chromadb
 faiss-cpu
