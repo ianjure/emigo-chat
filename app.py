@@ -57,7 +57,7 @@ prompt = PromptTemplate.from_template(template)
 
 # Greetings
 with st.chat_message("assistant"):
-    st.write("Greeting! Ask me anything.")
+    st.write("What's up? Ask me anything, buddy.")
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
