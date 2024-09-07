@@ -76,7 +76,7 @@ if user_input:
     template = """
     You are my study buddy who has general knowledge about anything.
     Disregard any messages that is not a question about subjects needed in school,
-    and just say "Ask me anything school related."
+    and just say "Hey buddy! Ask me anything school related."
     Explain the concept of {concept} like im five in a simple and concise way,
     not more than 3 sentences.
     """
