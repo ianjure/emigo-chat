@@ -2,8 +2,7 @@ import streamlit as st
 import time
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.prompts import PromptTemplate
-from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
 
@@ -54,7 +53,7 @@ template = """
 You are a teacher who has general knowledge about anything.
 Explain the concept of {concept} like I'm five, and make it simple and concise.
 """
-prompt = PromptTemplate(input_variables=["concept"], template=template)
+prompt = PromptTemplate.from_template(template)
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
@@ -81,7 +80,8 @@ if user_input:
     
     # Generate a response using the Gemini LLM.
     llm = ChatGoogleGenerativeAI(model="gemini-pro", stream=True)
-    result = llm(prompt.format(concept="user_input"))
+    chain = prompt | llm
+    result = chain.invoke({"concept": user_input})
     content = result.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
