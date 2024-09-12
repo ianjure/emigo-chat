@@ -75,14 +75,15 @@ if user_input:
     # Generate a response using the Gemini LLM.
     template = """
     You are my study buddy who has general knowledge about anything.
-    Answer this question: {question} and explain like im ten in a simple and concise way,
+    Answer this question: {question} 
+    Explain like im ten in a simple and concise way,
     not more than 3 sentences.
     """
     prompt = PromptTemplate.from_template(template)
 
     llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", stream=True)
     chain = prompt | llm
-    result = chain.invoke({"concept": user_input})
+    result = chain.invoke({"question": user_input})
     content = result.content
 
     # Stream the response to the chat using `st.write_stream`, then store it in 
