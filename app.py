@@ -50,7 +50,7 @@ st.markdown(sticky_header, unsafe_allow_html=True)
 
 # Greetings
 with st.chat_message("assistant"):
-    st.write("What's up? Ask me anything, buddy.")
+    st.write("What's up? Ask me anything.")
 
 # Create a session state variable to store the chat messages. This ensures that the
 # messages persist across reruns.
