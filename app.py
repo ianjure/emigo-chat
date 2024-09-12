@@ -75,7 +75,7 @@ if user_input:
     # Generate a response using the Gemini LLM.
     template = """
     You are my study buddy who has general knowledge about anything.
-    Explain the concept of {concept} like im five in a simple and concise way,
+    Answer this question: {question} and explain like im ten in a simple and concise way,
     not more than 3 sentences.
     """
     prompt = PromptTemplate.from_template(template)
