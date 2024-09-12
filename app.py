@@ -1,8 +1,8 @@
-import streamlit as st
-import time
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+import time
+import streamlit as st
 from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCkoQCn0rlZuRaUZioYsuEAy9JFWrfInc0"
 
