@@ -38,7 +38,7 @@ sticky_header = """
             margin-top: 1rem;
             margin-bottom: -0.5rem;
             top: 2rem;
-            background-color: white;
+            background-color: #0e1118;
             z-index: 999;
         }
         .fixed-header {
