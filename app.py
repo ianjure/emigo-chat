@@ -1,20 +1,74 @@
-import os
 import time
 import streamlit as st
 from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
-# Stream bot response
-def stream_data(content):
-    for word in content.split(" "):
-        yield word + " "
-        time.sleep(0.05)
+# [STREAMLIT] PAGE CONFIGURATION
+#icon = Image.open("icon.png")
+st.set_page_config(page_title="Emigo", page_icon="🧑🏻")
+st.logo("logo.svg")
 
-# remove top padding
+# [LANGCHAIN] GOOGLE API KEY CONFIGURATION
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+
+# [STREAMLIT] HIDE MENU
+hide_menu = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    div[data-testid="stDecoration"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    div[data-testid="stStatusWidget"] {
+    visibility: hidden;
+    height: 0%;
+    position: fixed;
+    }
+    </style>
+    """
+st.markdown(hide_menu, unsafe_allow_html = True)
+
+# [STREAMLIT] ADJUST ICON SIZE
+icon = """
+    <style>
+    [data-testid="stChatMessageAvatarAssistant"] {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: #24A9E1;
+    }
+    [data-testid="stChatMessageAvatarUser"] {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: #E1C324;
+    }
+    [class="eyeqlp53 st-emotion-cache-1pbsqtx ex0cdmw0"] {
+        width: 2rem;
+        height: auto;
+    }
+    </style>
+        """
+st.markdown(icon, unsafe_allow_html=True)
+
+# [STREAMLIT] ADJUST LOGO SIZE
+logo = """
+    <style>
+    [data-testid="stLogo"] {
+        width: 10rem;
+        height: auto;
+        margin-left: 0.5rem;
+    }
+    </style>
+        """
+st.markdown(logo, unsafe_allow_html=True)
+
+# [STREAMLIT] REMOVE TOP PADDING
 top = """
     <style>
     .block-container {
-        padding-top: 0rem;
+        padding-top: 3rem;
         padding-bottom: 0rem;
         margin-top: 0rem;
     }
@@ -22,70 +76,55 @@ top = """
         """
 st.markdown(top, unsafe_allow_html=True)
 
-# Sticky Header
-header = st.container()
-header.markdown("<p style='text-align: center; font-size: 4rem; font-weight: 800; line-height: 0.8;'>emigo</p>", unsafe_allow_html=True)
-header.markdown("<p style='text-align: center; font-size: 1rem; font-weight: 500; line-height: 1.2;'>Your AI Study Buddy!</p>", unsafe_allow_html=True)
-header.write("""<div class='fixed-header'/>""", unsafe_allow_html=True)
+# [STREAMLIT] STREAM BOT RESPONSE
+def stream(content):
+    for word in content.split(" "):
+        yield word + " "
+        time.sleep(0.03)
 
-# Custom CSS for the sticky header
-sticky_header = """
-    <style>
-        div[data-testid="stVerticalBlock"] div:has(div.fixed-header) {
-            position: sticky;
-            margin-top: 1rem;
-            margin-bottom: -0.5rem;
-            top: 2rem;
-            background-color: #0e1118;
-            z-index: 999;
-        }
-        .fixed-header {
-            border-bottom: 0px solid black;
-        }
-    </style>
-    """
-st.markdown(sticky_header, unsafe_allow_html=True)
-
-# Greetings
+# [STREAMLIT] CHAT BOT GREETINGS
 with st.chat_message("assistant"):
-    st.write("What's up? Ask me anything.")
+    st.write("What's up? 👋 I am Emigo, your AI study buddy. You can ask me anything! 😃")
 
-# Create a session state variable to store the chat messages. This ensures that the
-# messages persist across reruns.
+# [STREAMLIT] CREATE A SESSION STATE VARIABLE TO STORE THE CHAT MESSAGES FOR THE MODEL
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = [SystemMessage(content="""
+                                                       You are Emigo, an AI study buddy. Your name comes from the Spanish word 'Amigo'.
+                                                       You help users understand complicated topics by answering and explaining in a simple
+                                                       and concise way.
+                                                       """)]
 
-# Display the existing chat messages via `st.chat_message`.
-for message in st.session_state.messages:
+# [STREAMLIT] CREATE A SESSION STATE VARIABLE TO STORE THE CHAT HISTORY
+if "history" not in st.session_state:
+    st.session_state.history = []
+
+# [STREAMLIT] DISPLAY THE EXISTING CHAT HISTORY
+for message in st.session_state.history:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Create a chat input field to allow the user to enter a message. This will display
-# automatically at the bottom of the page.
+# [STREAMLIT] MAIN UI
 user_input = st.chat_input("Say something.")
+
+# [STREAMLIT] IF SEND BUTTON IS CLICKED
 if user_input:
 
-    # Store and display the current prompt.
-    st.session_state.messages.append({"role": "user", "content": user_input})
+    # [STREAMLIT] STORE USER MESSAGE IN SESSION STATE
+    st.session_state.messages.append(HumanMessage(content=user_input))
+    st.session_state.history.append({"role": "user", "content": user_input})
+
+    # [STREAMLIT] SHOW USER MESSAGE
     with st.chat_message("user"):
         st.markdown(user_input)
     
-    # Generate a response using the Gemini LLM.
-    template = """
-    You are my study buddy who has general knowledge about anything.
-    Answer this question: {question} 
-    Explain like im ten in a simple and concise way,
-    not more than 3 sentences.
-    """
-    prompt = PromptTemplate.from_template(template)
+    # [LANGCHAIN] GENERATE A RESPONSE USING THE GEMINI CHAT MODEL
+    chat = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
+    response = chat.invoke(st.session_state.messages)
 
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", stream=True)
-    chain = prompt | llm
-    result = chain.invoke({"question": user_input})
-    content = result.content
+    # [STREAMLIT] STORE AI MESSAGE IN SESSION STATE
+    st.session_state.messages.append(AIMessage(content=response.content))
+    st.session_state.history.append({"role": "assistant", "content": response.content})
 
-    # Stream the response to the chat using `st.write_stream`, then store it in 
-    # session state.
-    st.session_state.messages.append({"role": "assistant", "content": content})
+    # [STREAMLIT] SHOW RESPONSE
     with st.chat_message("assistant"):
-        response = st.write(stream_data(content))
+        response = st.write(stream(response.content))
