@@ -1,11 +1,12 @@
 import time
+from PIL import Image
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 # [STREAMLIT] PAGE CONFIGURATION
-#icon = Image.open("icon.png")
-st.set_page_config(page_title="Emigo", page_icon="🧑🏻")
+icon = Image.open("icon.png")
+st.set_page_config(page_title="Emigo", page_icon=icon)
 st.logo("logo.svg")
 
 # [LANGCHAIN] GOOGLE API KEY CONFIGURATION
