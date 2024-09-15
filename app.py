@@ -1,6 +1,5 @@
 import time
 import streamlit as st
-from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
@@ -58,7 +57,6 @@ logo = """
     [data-testid="stLogo"] {
         width: 10rem;
         height: auto;
-        margin-left: 0.5rem;
     }
     </style>
         """
@@ -68,13 +66,54 @@ st.markdown(logo, unsafe_allow_html=True)
 top = """
     <style>
     .block-container {
-        padding-top: 3rem;
+        padding-top: 1rem;
         padding-bottom: 0rem;
         margin-top: 0rem;
     }
     </style>
         """
 st.markdown(top, unsafe_allow_html=True)
+
+# [STREAMLIT] ADJUST HEADER HEIGHT
+header = """
+    <style>
+    [data-testid="stHeader"] {
+        height: 6rem;
+    }
+    </style>
+        """
+st.markdown(header, unsafe_allow_html=True)
+
+# [STREAMLIT] ADJUST CHAT INPUT PADDING
+bottom = """
+    <style>
+    [data-testid="stBottom"] {
+        padding-bottom: 2rem;
+        background: white;
+    }
+    </style>
+        """
+st.markdown(bottom, unsafe_allow_html=True)
+
+# [STREAMLIT] CHAT INPUT BORDER
+chat_border = """
+    <style>
+    [data-testid="stChatInput"] {
+        border: 2px solid #a2a8b8;
+    }
+    </style>
+        """
+st.markdown(chat_border, unsafe_allow_html=True)
+
+# [STREAMLIT] TEXT AREA BORDER
+text_border = """
+    <style>
+    [data-baseweb="textarea"] {
+        border: 1px;
+    }
+    </style>
+        """
+st.markdown(text_border, unsafe_allow_html=True)
 
 # [STREAMLIT] STREAM BOT RESPONSE
 def stream(content):
@@ -84,7 +123,7 @@ def stream(content):
 
 # [STREAMLIT] CHAT BOT GREETINGS
 with st.chat_message("assistant"):
-    st.write("What's up? 👋 I am Emigo, your AI study buddy. You can ask me anything! 😃")
+    st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. \nYou can ask me anything! 😃")
 
 # [STREAMLIT] CREATE A SESSION STATE VARIABLE TO STORE THE CHAT MESSAGES FOR THE MODEL
 if "messages" not in st.session_state:
