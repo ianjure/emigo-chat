@@ -123,7 +123,7 @@ def stream(content):
 
 # [STREAMLIT] CHAT BOT GREETINGS
 with st.chat_message("assistant"):
-    st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. \nYou can ask me anything! 😃")
+    st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. You can ask me anything! 😃")
 
 # [STREAMLIT] CREATE A SESSION STATE VARIABLE TO STORE THE CHAT MESSAGES FOR THE MODEL
 if "messages" not in st.session_state:
