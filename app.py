@@ -116,13 +116,16 @@ btn_border = """
         """
 st.markdown(btn_border, unsafe_allow_html=True)
 
-# [STREAMLIT] REMOVE TOP PADDING
+# [STREAMLIT] ADJUST TOP PADDING
 top = """
     <style>
     .block-container {
         padding-top: 0rem;
         padding-bottom: 0rem;
         margin-top: 0rem;
+    }
+    [class="stAppViewBlockContainer block-container st-emotion-cache-1eo1tir ea3mdgi5"] {
+        margin-top: -5rem;
     }
     </style>
         """
