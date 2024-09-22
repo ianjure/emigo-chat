@@ -1,12 +1,13 @@
 import time
 from PIL import Image
 import streamlit as st
+from streamlit_float import *
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 # [STREAMLIT] PAGE CONFIGURATION
 icon = Image.open("icon.png")
-st.set_page_config(page_title="Emigo", page_icon=icon)
+st.set_page_config(page_title="Emigo", page_icon="🧑🏻")
 st.logo("logo.svg")
 
 # [LANGCHAIN] GOOGLE API KEY CONFIGURATION
@@ -122,10 +123,6 @@ def stream(content):
         yield word + " "
         time.sleep(0.03)
 
-# [STREAMLIT] CHAT BOT GREETINGS
-with st.chat_message("assistant"):
-    st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. You can ask me anything! 😃")
-
 # [STREAMLIT] CREATE A SESSION STATE VARIABLE TO STORE THE CHAT MESSAGES FOR THE MODEL
 if "messages" not in st.session_state:
     st.session_state.messages = [SystemMessage(content="""
@@ -138,6 +135,10 @@ if "messages" not in st.session_state:
 if "history" not in st.session_state:
     st.session_state.history = []
 
+# [STREAMLIT] CHAT BOT GREETINGS
+with st.chat_message("assistant"):
+    st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. You can ask me anything! 😃")
+
 # [STREAMLIT] DISPLAY THE EXISTING CHAT HISTORY
 for message in st.session_state.history:
     with st.chat_message(message["role"]):
@@ -145,7 +146,7 @@ for message in st.session_state.history:
 
 # [STREAMLIT] MAIN UI
 user_input = st.chat_input("Say something.")
-
+    
 # [STREAMLIT] IF SEND BUTTON IS CLICKED
 if user_input:
 
@@ -168,3 +169,22 @@ if user_input:
     # [STREAMLIT] SHOW RESPONSE
     with st.chat_message("assistant"):
         response = st.write(stream(response.content))
+
+# [STREAMLIT] EXTRA BUTTONS
+float_init()
+
+action_buttons_container = st.container()
+action_buttons_container.float("bottom: 7.75rem; background-color: white; padding-top: 1rem;")
+
+col1, col2, col3 = action_buttons_container.columns(3)
+
+with col1:
+    if st.button("🧹 Clear Chat", use_container_width = True):
+        st.session_state.history = []
+        st.rerun()
+
+with col2:
+    st.button("📥 Load Chat", use_container_width = True)
+
+with col3:
+    st.button("📥 Save Chat", use_container_width = True)
