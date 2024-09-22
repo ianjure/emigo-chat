@@ -1,4 +1,5 @@
 import time
+import json
 from PIL import Image
 import streamlit as st
 from streamlit_float import *
@@ -7,11 +8,44 @@ from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 # [STREAMLIT] PAGE CONFIGURATION
 icon = Image.open("icon.png")
-st.set_page_config(page_title="Emigo", page_icon="🧑🏻")
+st.set_page_config(page_title="Emigo", page_icon=icon)
 st.logo("logo.svg")
 
 # [LANGCHAIN] GOOGLE API KEY CONFIGURATION
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+
+# [STREAMLIT] CUSTOMIZE FILE UPLOAD COMPONENT
+upload_btn = """
+    <style>
+    [data-testid='stFileUploader'] {
+        display: flex;
+        align-items: center;
+        width: inherit;
+    }
+    [data-testid='stFileUploader'] section {
+        padding: 0;
+        width: inherit;
+    }
+    [data-testid='stFileUploader'] section > input + div {
+        display: none;
+    }
+    [data-testid='stFileUploader'] section > input + div + button {
+        border: 2px solid #a2a8b8;
+        height: 2.8rem;
+        width: inherit;
+    }
+    [data-testid='stFileUploader'] section > input + div + button:before {
+        width: calc(100% - 18px);
+        content: "IMPORT";
+        position: absolute;
+        background-color: white;
+    }
+    [class='st-emotion-cache-fis6aj e1b2p2ww10'] {
+        display: none;
+    }
+    </style>
+    """
+st.markdown(upload_btn, unsafe_allow_html=True)
 
 # [STREAMLIT] HIDE MENU
 hide_menu = """
@@ -30,7 +64,7 @@ hide_menu = """
     }
     </style>
     """
-st.markdown(hide_menu, unsafe_allow_html = True)
+st.markdown(hide_menu, unsafe_allow_html=True)
 
 # [STREAMLIT] ADJUST ICON SIZE
 icon = """
@@ -64,6 +98,17 @@ logo = """
         """
 st.markdown(logo, unsafe_allow_html=True)
 
+# [STREAMLIT] ADJUST BUTTON BORDER
+btn_border = """
+    <style>
+    [data-testid="stBaseButton-secondary"] {
+        border: 2px solid #a2a8b8;
+        height: 2.8rem;
+    }
+    </style>
+        """
+st.markdown(btn_border, unsafe_allow_html=True)
+
 # [STREAMLIT] REMOVE TOP PADDING
 top = """
     <style>
@@ -76,15 +121,27 @@ top = """
         """
 st.markdown(top, unsafe_allow_html=True)
 
-# [STREAMLIT] ADJUST HEADER HEIGHT
+# [STREAMLIT] ADJUST HEADER
 header = """
     <style>
     [data-testid="stHeader"] {
         height: 6rem;
+        width: auto;
+        z-index: 1;
     }
     </style>
         """
 st.markdown(header, unsafe_allow_html=True)
+
+# [STREAMLIT] ADJUST VERTICAL BLOCK HEIGHT
+vert = """
+    <style>
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        margin-top: -5rem;
+    }
+    </style>
+        """
+#st.markdown(vert, unsafe_allow_html=True)
 
 # [STREAMLIT] ADJUST CHAT INPUT PADDING
 bottom = """
@@ -170,21 +227,43 @@ if user_input:
     with st.chat_message("assistant"):
         response = st.write(stream(response.content))
 
-# [STREAMLIT] EXTRA BUTTONS
+# [STREAMLIT] CHAT HISTORY OPTIONS
 float_init()
 
-action_buttons_container = st.container()
-action_buttons_container.float("bottom: 7.75rem; background-color: white; padding-top: 1rem;")
-
-col1, col2, col3 = action_buttons_container.columns(3)
-
-with col1:
-    if st.button("🧹 Clear Chat", use_container_width = True):
+@st.dialog("History Options")
+def open_options():
+    st.write("**Clear Chat History**")
+    if st.button("**CLEAR**", type="primary", use_container_width=True):
         st.session_state.history = []
         st.rerun()
+        
+    st.write("**Import / Export Chat History**")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        uploaded_file = st.file_uploader("", type='json', label_visibility="collapsed")
+        if uploaded_file is not None:
+            st.session_state.history = []
+            stringio = uploaded_file.getvalue().decode("utf-8")
+            stringjson = json.loads(stringio)
 
-with col2:
-    st.button("📥 Load Chat", use_container_width = True)
+            for string in stringjson:
+                st.session_state.history.append({"role": string["role"], "content": string["content"]})
 
-with col3:
-    st.button("📥 Save Chat", use_container_width = True)
+            st.rerun()
+                
+    with col2:
+        if len(st.session_state.history) == 0:
+            st.button("EXPORT", use_container_width=True, disabled=True)
+        else:
+            export = st.download_button("EXPORT", data=json.dumps(st.session_state.history), file_name="chat-history.json", use_container_width=True)
+            if export:
+                st.rerun()
+                
+button_container = st.container()
+with button_container:
+    if st.button("⚙️", type="secondary"):
+        open_options()
+    
+button_css = float_css_helper(width="1.8rem", height="2rem", right="3rem", top="2rem", transition=0)
+button_container.float(button_css)
