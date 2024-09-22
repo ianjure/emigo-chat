@@ -113,7 +113,7 @@ st.markdown(btn_border, unsafe_allow_html=True)
 top = """
     <style>
     .block-container {
-        padding-top: 1rem;
+        padding-top: 0rem;
         padding-bottom: 0rem;
         margin-top: 0rem;
     }
@@ -133,15 +133,26 @@ header = """
         """
 st.markdown(header, unsafe_allow_html=True)
 
-# [STREAMLIT] ADJUST VERTICAL BLOCK HEIGHT
-vert = """
+# [STREAMLIT] ADJUST USER CHAT ALIGNMENT
+reverse = """
     <style>
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        margin-top: -5rem;
+    [class="stChatMessage st-emotion-cache-1c7y2kd eeusbqq4"] {
+        flex-direction: row-reverse;
+        text-align: right;
     }
     </style>
         """
-#st.markdown(vert, unsafe_allow_html=True)
+st.markdown(reverse, unsafe_allow_html=True)
+
+# [STREAMLIT] HIDE USER ICON
+hide_icon = """
+    <style>
+    [data-testid="stChatMessageAvatarUser"] {
+        display: none;
+    }
+    </style>
+        """
+st.markdown(hide_icon, unsafe_allow_html=True)
 
 # [STREAMLIT] ADJUST CHAT INPUT PADDING
 bottom = """
@@ -233,8 +244,16 @@ float_init()
 @st.dialog("History Options")
 def open_options():
     st.write("**Clear Chat History**")
+    
     if st.button("**CLEAR**", type="primary", use_container_width=True):
+
+        # [STREAMLIT] CLEAR SESSION STATES
         st.session_state.history = []
+        st.session_state.messages = [SystemMessage(content="""
+                                                           You are Emigo, an AI study buddy. Your name comes from the Spanish word 'Amigo'.
+                                                           You help users understand complicated topics by answering and explaining in a simple
+                                                           and concise way.
+                                                           """)]
         st.rerun()
         
     st.write("**Import / Export Chat History**")
@@ -242,13 +261,27 @@ def open_options():
     
     with col1:
         uploaded_file = st.file_uploader("", type='json', label_visibility="collapsed")
+        
         if uploaded_file is not None:
+            
+            # [STREAMLIT] CLEAR SESSION STATES
             st.session_state.history = []
+            st.session_state.messages = [SystemMessage(content="""
+                                                               You are Emigo, an AI study buddy. Your name comes from the Spanish word 'Amigo'.
+                                                               You help users understand complicated topics by answering and explaining in a simple
+                                                               and concise way.
+                                                               """)]
+        
             stringio = uploaded_file.getvalue().decode("utf-8")
             stringjson = json.loads(stringio)
 
+            # [STREAMLIT] REPLACE SESSION STATE WITH IMPORTED CHAT HISTORY
             for string in stringjson:
                 st.session_state.history.append({"role": string["role"], "content": string["content"]})
+                if string["role"] == "user":
+                    st.session_state.messages.append(HumanMessage(content=string["content"]))
+                else:
+                    st.session_state.messages.append(AIMessage(content=string["content"]))
 
             st.rerun()
                 
@@ -257,6 +290,8 @@ def open_options():
             st.button("EXPORT", use_container_width=True, disabled=True)
         else:
             export = st.download_button("EXPORT", data=json.dumps(st.session_state.history), file_name="chat-history.json", use_container_width=True)
+
+            # [STREAMLIT] DOWNLOAD CHAT HISTORY AS JSON
             if export:
                 st.rerun()
                 
