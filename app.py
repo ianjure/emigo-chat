@@ -142,6 +142,7 @@ reverse = """
     [class="stChatMessage st-emotion-cache-1c7y2kd eeusbqq4"] {
         flex-direction: row-reverse;
         text-align: right;
+        font-style: italic;
     }
     </style>
         """
@@ -238,7 +239,7 @@ if user_input:
     st.session_state.history.append({"role": "assistant", "content": response.content})
 
     # [STREAMLIT] SHOW RESPONSE
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar=icon):
         response = st.write(stream(response.content))
 
 # [STREAMLIT] CHAT HISTORY OPTIONS
