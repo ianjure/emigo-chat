@@ -79,10 +79,10 @@ icon = """
     [data-testid="stChatMessageAvatarAssistant"] {
         width: 2rem;
         height: 2rem;
-        background-color: white;
+        background-color: transparent;
     }
     [class="eyeqlp53 st-emotion-cache-1pbsqtx ex0cdmw0"] {
-        width: 1.5rem;
+        width: 2rem;
         height: auto;
         color: #24A9E1;
     }
