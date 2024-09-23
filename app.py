@@ -83,7 +83,7 @@ icon = """
         border: none;
     }
     [data-testid="stIconMaterial"] {
-        margin-left: -1rem;
+        margin-left: -0.5rem;
         font-size: 2.5rem;
         color: #24A9E1;
     }
