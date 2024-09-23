@@ -81,7 +81,7 @@ icon = """
         height: 2rem;
         background-color: transparent;
     }
-    [class="eyeqlp53 st-emotion-cache-1pbsqtx ex0cdmw0"] {
+    [data-testid="stIconMaterial"] {
         width: 2rem;
         height: auto;
         color: #24A9E1;
