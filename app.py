@@ -77,17 +77,12 @@ st.markdown(hide_menu, unsafe_allow_html=True)
 icon = """
     <style>
     [data-testid="stChatMessageAvatarAssistant"] {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         background-color: #24A9E1;
     }
-    [data-testid="stChatMessageAvatarUser"] {
-        width: 2.5rem;
-        height: 2.5rem;
-        background-color: #E1C324;
-    }
     [class="eyeqlp53 st-emotion-cache-1pbsqtx ex0cdmw0"] {
-        width: 2rem;
+        width: 1.5rem;
         height: auto;
     }
     </style>
