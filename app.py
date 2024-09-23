@@ -208,7 +208,7 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 # [STREAMLIT] CHAT BOT GREETINGS
-with st.chat_message("assistant", avatar=st.image(icon)):
+with st.chat_message("assistant", avatar="robot_2"):
     st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. You can ask me anything! 😃")
 
 # [STREAMLIT] DISPLAY THE EXISTING CHAT HISTORY
