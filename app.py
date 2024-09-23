@@ -208,7 +208,7 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 # [STREAMLIT] CHAT BOT GREETINGS
-with st.chat_message("assistant", avatar="robot_2"):
+with st.chat_message("assistant", avatar=":material/robot_2:"):
     st.markdown("What's up? 👋 I am **Emigo**, your **AI study buddy**. You can ask me anything! 😃")
 
 # [STREAMLIT] DISPLAY THE EXISTING CHAT HISTORY
@@ -239,7 +239,7 @@ if user_input:
     st.session_state.history.append({"role": "assistant", "content": response.content})
 
     # [STREAMLIT] SHOW RESPONSE
-    with st.chat_message("assistant", avatar=icon):
+    with st.chat_message("assistant", avatar=":material/robot_2:"):
         response = st.write(stream(response.content))
 
 # [STREAMLIT] CHAT HISTORY OPTIONS
