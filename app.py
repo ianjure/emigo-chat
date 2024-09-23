@@ -76,14 +76,13 @@ st.markdown(hide_menu, unsafe_allow_html=True)
 # [STREAMLIT] ADJUST ICON SIZE
 icon = """
     <style>
-    [data-testid="stChatMessageAvatarAssistant"] {
-        width: 2rem;
-        height: 2rem;
+    [data-testid="stChatMessageAvatarCustom"] {
+        width: 2.5rem;
+        height: 2.5rem;
         background-color: transparent;
     }
     [data-testid="stIconMaterial"] {
-        width: 2rem;
-        height: auto;
+        font-size: 2.5rem;
         color: #24A9E1;
     }
     </style>
