@@ -82,6 +82,7 @@ icon = """
         background-color: transparent;
     }
     [data-testid="stIconMaterial"] {
+        margin-left: -1.5rem;
         font-size: 2.5rem;
         color: #24A9E1;
     }
