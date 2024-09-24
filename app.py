@@ -129,7 +129,7 @@ st.markdown(top, unsafe_allow_html=True)
 header = """
     <style>
     [data-testid="stHeader"] {
-        height: 6rem;
+        height: 7rem;
         width: auto;
         z-index: 1;
     }
