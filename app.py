@@ -77,15 +77,15 @@ st.markdown(hide_menu, unsafe_allow_html=True)
 icon = """
     <style>
     [data-testid="stChatMessageAvatarCustom"] {
-        width: 2.5rem;
-        height: 2.5rem;
-        background-color: transparent;
+        width: 2rem;
+        height: 2rem;
+        background-color: #24A9E1;
         border: none;
     }
     [data-testid="stIconMaterial"] {
-        margin-left: -0.5rem;
-        font-size: 2.5rem;
-        color: #24A9E1;
+        font-size: 1.8rem;
+        margin-left: -0.3rem;
+        color: white;
     }
     </style>
         """
@@ -143,6 +143,7 @@ reverse = """
     [class="stChatMessage st-emotion-cache-1c7y2kd eeusbqq4"] {
         flex-direction: row-reverse;
         text-align: right;
+        background: white;
         font-style: italic;
     }
     </style>
@@ -214,8 +215,12 @@ with st.chat_message("assistant", avatar=":material/robot_2:"):
 
 # [STREAMLIT] DISPLAY THE EXISTING CHAT HISTORY
 for message in st.session_state.history:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if message["role"] == "assistant":
+        with st.chat_message(message["role"], avatar=":material/robot_2:"):
+            st.markdown(message["content"])
+    else:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
 # [STREAMLIT] MAIN UI
 user_input = st.chat_input("Say something.")
@@ -246,7 +251,7 @@ if user_input:
 # [STREAMLIT] CHAT HISTORY OPTIONS
 float_init()
 
-@st.dialog("History Options")
+@st.dialog("Chat Options")
 def open_options():
     st.write("**Clear Chat History**")
     
@@ -266,7 +271,7 @@ def open_options():
     
     with col1:
         uploaded_file = st.file_uploader("", type='json', label_visibility="collapsed")
-        
+            
         if uploaded_file is not None:
             
             # [STREAMLIT] CLEAR SESSION STATES
